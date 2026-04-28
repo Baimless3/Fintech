@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="style.css"><title>Kalkulator Rat</title></head>
+<body>
+    <main class="max-w-lg mx-auto p-8">
+        <h1 class="text-4xl mb-8">Kalkulator Raty</h1>
+        <div class="card">
+            <input type="number" id="kwota" placeholder="Kwota kredytu" class="w-full p-3 border rounded mb-4">
+            <button onclick="oblicz()" class="w-full btn-affiliate">Oblicz</button>
+            <div id="wynik" class="mt-6 font-bold text-xl"></div>
+        </div>
+    </main>
+    <script>function oblicz(){const k=document.getElementById('kwota').value; document.getElementById('wynik').innerText="Rata: "+(k*0.02).toFixed(2)+" PLN";}</script>
+    <script src="js/main.js"></script>
+</body></html>

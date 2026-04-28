@@ -1,0 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap');
+body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+h1 { font-family: 'Playfair Display', serif; color: #0f172a; }
+.btn-affiliate { background: #0f172a; color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block; }
+.card { background: white; border: 1px solid #e2e8f0; padding: 24px; border-radius: 16px; margin-bottom: 20px; }
