@@ -13,10 +13,10 @@
         <h1 class="text-5xl font-serif mb-12 text-center">Ranking <span class="text-blue-500">Kredytów 2026</span></h1>
 
         <div class="flex gap-4 justify-center mb-10">
-            <button onclick="sortRanking('asc')" class="px-6 py-2 bg-blue-600 rounded-lg font-bold hover:bg-blue-700 transition">
+            <button id="btn-asc" onclick="sortRanking('asc', this)" class="px-6 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600 transition">
                 Najniższe RRSO ↑
             </button>
-            <button onclick="sortRanking('desc')" class="px-6 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600 transition">
+            <button id="btn-desc" onclick="sortRanking('desc', this)" class="px-6 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600 transition">
                 Najwyższe RRSO ↓
             </button>
         </div>
@@ -64,13 +64,21 @@
             `).join('');
         }
 
-        function sortRanking(order) {
+        function sortRanking(order, btnElement) {
+            // Sortowanie danych
             const sortedData = [...rankingData].sort((a, b) => {
                 const rrsoA = parseFloat(a.rrso);
                 const rrsoB = parseFloat(b.rrso);
                 return order === 'asc' ? rrsoA - rrsoB : rrsoB - rrsoA;
             });
             renderTable(sortedData);
+
+            // Zmiana kolorów przycisków
+            document.getElementById('btn-asc').className = "px-6 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600 transition";
+            document.getElementById('btn-desc').className = "px-6 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600 transition";
+            
+            // Podświetlenie klikniętego przycisku
+            btnElement.className = "px-6 py-2 bg-blue-600 rounded-lg font-bold hover:bg-blue-700 transition";
         }
 
         loadRanking();
