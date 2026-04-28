@@ -7,27 +7,51 @@
     <link rel="stylesheet" href="style.css">
     <title>Ranking Kredytów 2026 | FinTech Hub</title>
 </head>
-<body>
+<body class="bg-slate-950 text-white">
 
-    <main class="max-w-5xl mx-auto py-20 px-6">
-        <h1 class="text-4xl font-bold mb-10 text-center">Najlepsze oferty <span class="text-blue-500">Kredytów 2026</span></h1>
+    <main class="max-w-5xl mx-auto py-24 px-6">
+        <h1 class="text-5xl font-serif mb-12 text-center tracking-tight">
+            Najlepsze oferty <span class="text-blue-500">Kredytów 2026</span>
+        </h1>
 
-        <div class="overflow-x-auto">
-           <table class="w-full text-left border-collapse">
-    <thead>
-        <tr class="text-slate-400 border-b border-border text-sm uppercase tracking-wider">
-            <th class="py-4 px-6">Bank</th>
-            <th class="py-4 px-6">RRSO</th>
-            <th class="py-4 px-6">Prowizja</th>
-            <th class="py-4 px-6">Akcja</th>
-        </tr>
-    </thead>
-    <tbody id="ranking-body" class="divide-y divide-border">
-        </tbody>
-</table>
+        <div class="card overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-slate-400 border-b border-slate-800 text-sm uppercase tracking-wider">
+                        <th class="py-6 px-8">Bank</th>
+                        <th class="py-6 px-8">RRSO</th>
+                        <th class="py-6 px-8">Prowizja</th>
+                        <th class="py-6 px-8">Akcja</th>
+                    </tr>
+                </thead>
+                <tbody id="ranking-body" class="divide-y divide-slate-800">
+                    </tbody>
+            </table>
         </div>
     </main>
 
+    <script>
+        async function loadRanking() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                const tbody = document.getElementById('ranking-body');
+                
+                tbody.innerHTML = data.map(item => `
+                    <tr class="hover:bg-blue-950/20 transition-colors">
+                        <td class="py-8 px-8 font-bold text-xl">${item.bank}</td>
+                        <td class="py-8 px-8 text-blue-400 font-bold text-lg">${item.rrso}</td>
+                        <td class="py-8 px-8 text-slate-300">${item.prowizja}</td>
+                        <td class="py-8 px-8"><a href="${item.link}" class="btn-affiliate">Wybierz</a></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error("Błąd ładowania rankingu:", error);
+            }
+        }
+        loadRanking();
+    </script>
+    
     <script src="js/main.js"></script>
 </body>
 </html>
