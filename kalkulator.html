@@ -1,14 +1,53 @@
 <!DOCTYPE html>
-<html lang="pl"><head><meta charset="UTF-8"><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="style.css"><title>Kalkulator Rat</title></head>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Kalkulator Rat Premium | FinTech Hub</title>
+</head>
 <body>
-    <main class="max-w-lg mx-auto p-8">
-        <h1 class="text-4xl mb-8">Kalkulator Raty</h1>
-        <div class="card">
-            <input type="number" id="kwota" placeholder="Kwota kredytu" class="w-full p-3 border rounded mb-4">
-            <button onclick="oblicz()" class="w-full btn-affiliate">Oblicz</button>
-            <div id="wynik" class="mt-6 font-bold text-xl"></div>
+
+    <main class="max-w-xl mx-auto py-24 px-6">
+        <div class="card p-10">
+            <h1 class="text-3xl mb-8 text-center tracking-tight">Kalkulator <span class="text-blue-500">Raty</span></h1>
+            
+            <div class="mb-8">
+                <label class="block text-sm font-light text-slate-400 mb-2">Kwota kredytu: <span id="kwotaVal" class="text-white font-bold">50 000</span> PLN</label>
+                <input type="range" id="kwota" min="1000" max="500000" step="1000" value="50000" 
+                    class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                    oninput="document.getElementById('kwotaVal').innerText = this.value.replace(/\B(?=(\d{3})+(?!\d))/g, ' '); oblicz();">
+            </div>
+
+            <div class="mb-10">
+                <label class="block text-sm font-light text-slate-400 mb-2">Okres (miesiące): <span id="okresVal" class="text-white font-bold">24</span></label>
+                <input type="range" id="okres" min="6" max="120" step="6" value="24" 
+                    class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                    oninput="document.getElementById('okresVal').innerText = this.value; oblicz();">
+            </div>
+
+            <div class="bg-blue-950/30 border border-blue-500/30 p-6 rounded-xl text-center">
+                <p class="text-slate-400 text-sm uppercase tracking-widest mb-1">Szacowana rata</p>
+                <div id="wynik" class="text-5xl font-bold text-white mb-1">0 PLN</div>
+                <p class="text-blue-400 text-xs italic">Wartość orientacyjna (RRSO 9.5%)</p>
+            </div>
         </div>
     </main>
-    <script>function oblicz(){const k=document.getElementById('kwota').value; document.getElementById('wynik').innerText="Rata: "+(k*0.02).toFixed(2)+" PLN";}</script>
+
+    <script>
+        function oblicz() {
+            const kwota = parseInt(document.getElementById('kwota').value);
+            const okres = parseInt(document.getElementById('okres').value);
+            // Prosty wzór na ratę równą
+            const oprocentowanie = 0.095; 
+            const rata = (kwota * (1 + oprocentowanie)) / okres;
+            
+            document.getElementById('wynik').innerText = rata.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + " PLN";
+        }
+        // Oblicz przy starcie
+        oblicz();
+    </script>
     <script src="js/main.js"></script>
-</body></html>
+</body>
+</html>
