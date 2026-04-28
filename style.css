@@ -1,46 +1,116 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@700&display=swap');
+/* Import nowoczesnych czcionek: Inter (tekst), Outfit (nagłówki techniczne) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@700;800&display=swap');
+
+/* Definicja zmiennych kolorów dla łatwej edycji */
+:root {
+    --bg-dark: #030712;         /* Prawie czarny granat */
+    --bg-card: #111827;         /* Ciemny szary/niebieski dla kart */
+    --accent-primary: #3b82f6;   /* Jasny niebieski (klikalny) */
+    --accent-secondary: #60a5fa; /* Neonowy błękit (glow) */
+    --text-main: #f3f4f6;       /* Jasny szary tekst */
+    --text-muted: #9ca3af;      /* Przyciemniony tekst */
+    --border: #1f2937;          /* Ciemne obramowanie */
+}
+
+/* --- Resety i Baza --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body { 
     font-family: 'Inter', sans-serif; 
-    background-color: #050a14; /* Głęboka czerń/granat */
-    color: #e2e8f0; 
+    background-color: var(--bg-dark); 
+    color: var(--text-main); 
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-h1, h2, h3 { 
+h1, h2, h3, h4 { 
     font-family: 'Outfit', sans-serif; 
-    color: #ffffff; 
+    font-weight: 800; 
+    letter-spacing: -0.05em; 
+    color: #ffffff;
 }
 
-/* Futurystyczne karty */
-.card { 
-    background: linear-gradient(145deg, #101a2e, #0a1120); 
-    border: 1px solid #1e3a8a; 
+/* --- Nawigacja (Wstrzykiwana przez JS) --- */
+/* Efekt Glassmorphism: przezroczystość + rozmycie tła */
+nav { 
+    background-color: rgba(3, 7, 18, 0.8) !important; 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border); 
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: var(--accent-secondary) !important;
+}
+
+/* --- Globalne Elementy Premium --- */
+
+/* Karty z efektem uniesienia i poświaty przy najechaniu */
+.card, .product-card { 
+    background-color: var(--bg-card); 
+    border: 1px solid var(--border); 
     border-radius: 20px; 
-    transition: all 0.3s ease; 
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                box-shadow 0.4s ease, 
+                border-color 0.4s ease;
+    will-change: transform, box-shadow; /* Optymalizacja wydajności */
 }
 
-.card:hover { 
-    border-color: #3b82f6; 
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); 
+/* Animacja Premium: Uniesienie + Neonowe Świecenie */
+.card:hover, .product-card:hover { 
+    transform: translateY(-8px) scale(1.01); /* Uniesienie i lekkie powiększenie */
+    border-color: var(--accent-primary);
+    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.15), 
+                0 0 15px rgba(96, 165, 250, 0.1); /* Podwójne świecenie */
 }
 
-/* Przyciski */
+/* --- Przyciski Afiliacyjne --- */
+/* Gradient + Cień */
 .btn-affiliate { 
-    background: linear-gradient(90deg, #2563eb, #3b82f6); 
-    color: white; 
-    padding: 12px 24px; 
+    background: linear-gradient(135deg, var(--accent-primary), #1d4ed8); 
+    color: white !important; 
+    padding: 14px 28px; 
     border-radius: 12px; 
     font-weight: 600; 
-    transition: 0.3s; 
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+    border: none;
+    cursor: pointer;
 }
 
+/* Animacja Przycisku: Pulsowanie + Mocniejsze Świecenie */
 .btn-affiliate:hover { 
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); 
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    transform: translateY(-2px);
 }
 
-/* Nawigacja (zgodna z resztą) */
-nav { 
-    background-color: rgba(10, 17, 32, 0.8) !important; 
-    backdrop-filter: blur(10px); 
-    border-bottom: 1px solid #1e3a8a; 
+.btn-affiliate:active {
+    transform: translateY(1px);
+}
+
+/* --- Sekcje specjalne --- */
+.hero-glow {
+    position: relative;
+}
+
+/* Dodaje subtelny gradient tła w sekcji Hero */
+.hero-glow::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, rgba(3, 7, 18, 0) 70%);
+    z-index: -1;
 }
