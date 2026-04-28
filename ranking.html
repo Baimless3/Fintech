@@ -5,49 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
-    <title>Ranking Kredytów 2026 | FinTech Hub</title>
+    <title>Ranking Kredytów 2026</title>
 </head>
 <body class="bg-slate-950 text-white">
 
     <main class="max-w-5xl mx-auto py-24 px-6">
         <h1 class="text-5xl font-serif mb-12 text-center">Ranking <span class="text-blue-500">Kredytów 2026</span></h1>
 
-        <div class="mb-8 flex gap-4 justify-center">
-            <button onclick="sortData('asc', this)" class="sort-btn bg-blue-600 px-6 py-2 rounded-lg text-sm font-semibold transition">Najniższe RRSO ↑</button>
-            <button onclick="sortData('desc', this)" class="sort-btn bg-slate-800 px-6 py-2 rounded-lg text-sm font-semibold transition">Najwyższe RRSO ↓</button>
-        </div>
-
         <div class="card overflow-x-auto">
             <table class="w-full text-left">
-                <thead><tr class="text-slate-400 border-b border-slate-800 text-sm uppercase"><th class="py-6 px-8">Bank</th><th class="py-6 px-8">RRSO</th><th class="py-6 px-8">Prowizja</th><th class="py-6 px-8">Akcja</th></tr></thead>
+                <thead>
+                    <tr class="text-slate-400 border-b border-slate-800 text-sm uppercase">
+                        <th class="py-6 px-8">Bank</th>
+                        <th class="py-6 px-8">RRSO</th>
+                        <th class="py-6 px-8">Prowizja</th>
+                        <th class="py-6 px-8">Akcja</th>
+                    </tr>
+                </thead>
                 <tbody id="ranking-body" class="divide-y divide-slate-800"></tbody>
             </table>
         </div>
     </main>
 
     <script>
-        let rankingData = [];
         async function loadRanking() {
             const response = await fetch('data.json');
-            rankingData = await response.json();
-            renderTable(rankingData);
-        }
-        function renderTable(data) {
+            const data = await response.json();
             const tbody = document.getElementById('ranking-body');
+            
             tbody.innerHTML = data.map(item => `
                 <tr class="hover:bg-blue-950/20 transition">
-                    <td class="py-8 px-8 font-bold text-xl">${item.bank}</td>
+                    <td class="py-6 px-8 flex items-center gap-4">
+                        <img src="${item.logo}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" alt="${item.bank}" class="w-10 h-10 rounded-full bg-white p-1 object-contain">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 hidden items-center justify-center font-bold text-lg">${item.bank[0]}</div>
+                        <span class="font-bold text-xl">${item.bank}</span>
+                    </td>
                     <td class="py-8 px-8 text-blue-400 font-bold text-lg">${item.rrso}%</td>
                     <td class="py-8 px-8">${item.prowizja}</td>
                     <td class="py-8 px-8"><a href="${item.link}" class="btn-affiliate">Wybierz</a></td>
                 </tr>
             `).join('');
-        }
-        function sortData(order, btn) {
-            const sorted = [...rankingData].sort((a, b) => order === 'asc' ? parseFloat(a.rrso) - parseFloat(b.rrso) : parseFloat(b.rrso) - parseFloat(a.rrso));
-            renderTable(sorted);
-            document.querySelectorAll('.sort-btn').forEach(b => { b.classList.remove('bg-blue-600'); b.classList.add('bg-slate-800'); });
-            btn.classList.remove('bg-slate-800'); btn.classList.add('bg-blue-600');
         }
         loadRanking();
     </script>
