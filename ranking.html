@@ -10,78 +10,47 @@
 <body class="bg-slate-950 text-white">
 
     <main class="max-w-5xl mx-auto py-24 px-6">
-        <h1 class="text-5xl font-serif mb-12 text-center tracking-tight">
-            Najlepsze oferty <span class="text-blue-500">Kredytów 2026</span>
-        </h1>
+        <h1 class="text-5xl font-serif mb-12 text-center">Ranking <span class="text-blue-500">Kredytów 2026</span></h1>
 
         <div class="mb-8 flex gap-4 justify-center">
-            <button onclick="sortData('asc', this)" class="sort-btn bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg text-sm font-semibold transition shadow-lg">Najniższe RRSO ↑</button>
-            <button onclick="sortData('desc', this)" class="sort-btn bg-slate-800 hover:bg-slate-700 px-6 py-2 rounded-lg text-sm font-semibold transition">Najwyższe RRSO ↓</button>
+            <button onclick="sortData('asc', this)" class="sort-btn bg-blue-600 px-6 py-2 rounded-lg text-sm font-semibold transition">Najniższe RRSO ↑</button>
+            <button onclick="sortData('desc', this)" class="sort-btn bg-slate-800 px-6 py-2 rounded-lg text-sm font-semibold transition">Najwyższe RRSO ↓</button>
         </div>
 
         <div class="card overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="text-slate-400 border-b border-slate-800 text-sm uppercase tracking-wider">
-                        <th class="py-6 px-8">Bank</th>
-                        <th class="py-6 px-8">RRSO</th>
-                        <th class="py-6 px-8">Prowizja</th>
-                        <th class="py-6 px-8">Akcja</th>
-                    </tr>
-                </thead>
-                <tbody id="ranking-body" class="divide-y divide-slate-800">
-                    </tbody>
+            <table class="w-full text-left">
+                <thead><tr class="text-slate-400 border-b border-slate-800 text-sm uppercase"><th class="py-6 px-8">Bank</th><th class="py-6 px-8">RRSO</th><th class="py-6 px-8">Prowizja</th><th class="py-6 px-8">Akcja</th></tr></thead>
+                <tbody id="ranking-body" class="divide-y divide-slate-800"></tbody>
             </table>
         </div>
     </main>
 
     <script>
         let rankingData = [];
-
         async function loadRanking() {
-            try {
-                const response = await fetch('data.json');
-                rankingData = await response.json();
-                renderTable(rankingData);
-            } catch (error) {
-                console.error("Błąd ładowania danych:", error);
-            }
+            const response = await fetch('data.json');
+            rankingData = await response.json();
+            renderTable(rankingData);
         }
-
         function renderTable(data) {
             const tbody = document.getElementById('ranking-body');
             tbody.innerHTML = data.map(item => `
-                <tr class="hover:bg-blue-950/20 transition-colors">
+                <tr class="hover:bg-blue-950/20 transition">
                     <td class="py-8 px-8 font-bold text-xl">${item.bank}</td>
                     <td class="py-8 px-8 text-blue-400 font-bold text-lg">${item.rrso}%</td>
-                    <td class="py-8 px-8 text-slate-300">${item.prowizja}</td>
+                    <td class="py-8 px-8">${item.prowizja}</td>
                     <td class="py-8 px-8"><a href="${item.link}" class="btn-affiliate">Wybierz</a></td>
                 </tr>
             `).join('');
         }
-
-        function sortData(order, btnElement) {
-            // Logika sortowania
-            const sorted = [...rankingData].sort((a, b) => {
-                const valA = parseFloat(a.rrso);
-                const valB = parseFloat(b.rrso);
-                return order === 'asc' ? valA - valB : valB - valA;
-            });
+        function sortData(order, btn) {
+            const sorted = [...rankingData].sort((a, b) => order === 'asc' ? parseFloat(a.rrso) - parseFloat(b.rrso) : parseFloat(b.rrso) - parseFloat(a.rrso));
             renderTable(sorted);
-
-            // Zmiana kolorów przycisków
-            document.querySelectorAll('.sort-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-600');
-                btn.classList.add('bg-slate-800');
-            });
-            btnElement.classList.remove('bg-slate-800');
-            btnElement.classList.add('bg-blue-600');
+            document.querySelectorAll('.sort-btn').forEach(b => { b.classList.remove('bg-blue-600'); b.classList.add('bg-slate-800'); });
+            btn.classList.remove('bg-slate-800'); btn.classList.add('bg-blue-600');
         }
-
-        // Ładujemy dane przy starcie
         loadRanking();
     </script>
-    
     <script src="js/main.js"></script>
 </body>
 </html>
