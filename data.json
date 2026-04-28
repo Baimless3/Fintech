@@ -1,1 +1,5 @@
-
+[
+    { "bank": "Bank Alpha", "rrso": "5.20%", "prowizja": "0%", "link": "#" },
+    { "bank": "Bank Beta", "rrso": "6.10%", "prowizja": "1.5%", "link": "#" },
+    { "bank": "Bank Gamma", "rrso": "7.40%", "prowizja": "2%", "link": "#" }
+]
