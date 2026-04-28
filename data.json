@@ -1,5 +1,6 @@
 [
-    { "bank": "Bank Alpha", "rrso": "5.20", "prowizja": "0%", "link": "#" },
-    { "bank": "Bank Beta", "rrso": "6.10", "prowizja": "1.5%", "link": "#" },
-    { "bank": "Bank Gamma", "rrso": "7.40", "prowizja": "2%", "link": "#" }
+    { "bank": "mBank", "rrso": "8.50", "prowizja": "0%", "link": "#" },
+    { "bank": "ING Bank Śląski", "rrso": "9.20", "prowizja": "0%", "link": "#" },
+    { "bank": "Santander", "rrso": "10.10", "prowizja": "1%", "link": "#" },
+    { "bank": "PKO BP", "rrso": "11.00", "prowizja": "0.5%", "link": "#" }
 ]
