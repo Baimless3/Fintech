@@ -1,12 +1,51 @@
 <!DOCTYPE html>
-<html lang="pl"><head><meta charset="UTF-8"><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="style.css"><title>Ranking Kredytów</title></head>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Ranking Kredytów 2026 | FinTech Hub</title>
+</head>
 <body>
-    <main class="max-w-3xl mx-auto p-8">
-        <h1 class="text-4xl mb-8">Ranking Kredytów</h1>
-        <div class="card flex justify-between items-center">
-            <div><h3 class="font-bold text-xl">Bank Alpha</h3><p>RRSO: 5.2%</p></div>
-            <a href="#" class="btn-affiliate">Sprawdź</a>
+
+    <main class="max-w-5xl mx-auto py-20 px-6">
+        <h1 class="text-4xl font-bold mb-10 text-center">Najlepsze oferty <span class="text-blue-500">Kredytów 2026</span></h1>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-slate-400 border-b border-border text-sm uppercase tracking-wider">
+                        <th class="py-4 px-6">Bank</th>
+                        <th class="py-4 px-6">RRSO</th>
+                        <th class="py-4 px-6">Prowizja</th>
+                        <th class="py-4 px-6">Akcja</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                    <tr class="hover:bg-blue-950/20 transition">
+                        <td class="py-6 px-6 font-bold text-lg">Bank Alpha</td>
+                        <td class="py-6 px-6 text-blue-400 font-bold">5.20%</td>
+                        <td class="py-6 px-6">0%</td>
+                        <td class="py-6 px-6"><a href="#" class="btn-affiliate">Wybierz</a></td>
+                    </tr>
+                    <tr class="hover:bg-blue-950/20 transition">
+                        <td class="py-6 px-6 font-bold text-lg">Bank Beta</td>
+                        <td class="py-6 px-6 text-blue-400 font-bold">6.10%</td>
+                        <td class="py-6 px-6">1.5%</td>
+                        <td class="py-6 px-6"><a href="#" class="btn-affiliate">Wybierz</a></td>
+                    </tr>
+                    <tr class="hover:bg-blue-950/20 transition">
+                        <td class="py-6 px-6 font-bold text-lg">Bank Gamma</td>
+                        <td class="py-6 px-6 text-blue-400 font-bold">7.40%</td>
+                        <td class="py-6 px-6">2%</td>
+                        <td class="py-6 px-6"><a href="#" class="btn-affiliate">Wybierz</a></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
+
     <script src="js/main.js"></script>
-</body></html>
+</body>
+</html>
