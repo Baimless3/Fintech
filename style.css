@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap');
 body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
-h1, h2, h3 { font-family: 'Playfair Display', serif; color: #0f172a; }
-.premium-card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; }
-.btn-affiliate { background: #0f172a; color: white; padding: 12px 24px; border-radius: 6px; display: inline-block; font-weight: 600; text-decoration: none; }
-.btn-affiliate:hover { background: #1e293b; }
+h1, h2 { font-family: 'Playfair Display', serif; color: #0f172a; }
+.product-card { border: 1px solid #e2e8f0; padding: 24px; border-radius: 16px; transition: 0.3s; }
+.product-card:hover { border-color: #0f172a; transform: translateY(-2px); }
+.btn-affiliate { background: #0f172a; color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; }
