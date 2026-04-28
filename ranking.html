@@ -14,6 +14,11 @@
             Najlepsze oferty <span class="text-blue-500">Kredytów 2026</span>
         </h1>
 
+        <div class="mb-8 flex gap-4 justify-center">
+            <button onclick="sortData('asc')" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg text-sm font-semibold transition shadow-lg">Najniższe RRSO ↑</button>
+            <button onclick="sortData('desc')" class="bg-slate-800 hover:bg-slate-700 px-6 py-2 rounded-lg text-sm font-semibold transition">Najwyższe RRSO ↓</button>
+        </div>
+
         <div class="card overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -31,24 +36,39 @@
     </main>
 
     <script>
+        let rankingData = [];
+
         async function loadRanking() {
             try {
                 const response = await fetch('data.json');
-                const data = await response.json();
-                const tbody = document.getElementById('ranking-body');
-                
-                tbody.innerHTML = data.map(item => `
-                    <tr class="hover:bg-blue-950/20 transition-colors">
-                        <td class="py-8 px-8 font-bold text-xl">${item.bank}</td>
-                        <td class="py-8 px-8 text-blue-400 font-bold text-lg">${item.rrso}</td>
-                        <td class="py-8 px-8 text-slate-300">${item.prowizja}</td>
-                        <td class="py-8 px-8"><a href="${item.link}" class="btn-affiliate">Wybierz</a></td>
-                    </tr>
-                `).join('');
+                rankingData = await response.json();
+                renderTable(rankingData);
             } catch (error) {
-                console.error("Błąd ładowania rankingu:", error);
+                console.error("Błąd ładowania danych:", error);
             }
         }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('ranking-body');
+            tbody.innerHTML = data.map(item => `
+                <tr class="hover:bg-blue-950/20 transition-colors">
+                    <td class="py-8 px-8 font-bold text-xl">${item.bank}</td>
+                    <td class="py-8 px-8 text-blue-400 font-bold text-lg">${item.rrso}%</td>
+                    <td class="py-8 px-8 text-slate-300">${item.prowizja}</td>
+                    <td class="py-8 px-8"><a href="${item.link}" class="btn-affiliate">Wybierz</a></td>
+                </tr>
+            `).join('');
+        }
+
+        function sortData(order) {
+            const sorted = [...rankingData].sort((a, b) => {
+                const valA = parseFloat(a.rrso);
+                const valB = parseFloat(b.rrso);
+                return order === 'asc' ? valA - valB : valB - valA;
+            });
+            renderTable(sorted);
+        }
+
         loadRanking();
     </script>
     
