@@ -12,6 +12,15 @@
     <main class="max-w-5xl mx-auto py-24 px-6">
         <h1 class="text-5xl font-serif mb-12 text-center">Ranking <span class="text-blue-500">Kredytów 2026</span></h1>
 
+        <div class="flex gap-4 justify-center mb-10">
+            <button onclick="sortRanking('asc')" class="px-6 py-2 bg-blue-600 rounded-lg font-bold hover:bg-blue-700 transition">
+                Najniższe RRSO ↑
+            </button>
+            <button onclick="sortRanking('desc')" class="px-6 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600 transition">
+                Najwyższe RRSO ↓
+            </button>
+        </div>
+
         <div class="card overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
@@ -28,16 +37,24 @@
     </main>
 
     <script>
+        let rankingData = [];
+
         async function loadRanking() {
-            const response = await fetch('data.json');
-            const data = await response.json();
+            try {
+                const response = await fetch('data.json');
+                rankingData = await response.json();
+                renderTable(rankingData);
+            } catch (e) {
+                console.error("Błąd ładowania danych:", e);
+            }
+        }
+
+        function renderTable(data) {
             const tbody = document.getElementById('ranking-body');
-            
             tbody.innerHTML = data.map(item => `
                 <tr class="hover:bg-blue-950/20 transition">
-                    <td class="py-6 px-8 flex items-center gap-4">
-                        <img src="${item.logo}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" alt="${item.bank}" class="w-10 h-10 rounded-full bg-white p-1 object-contain">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 hidden items-center justify-center font-bold text-lg">${item.bank[0]}</div>
+                    <td class="py-6 px-8 flex items-center gap-6">
+                        <img src="${item.logo}" alt="${item.bank}" class="w-12 h-12 object-contain bg-white rounded-lg p-1">
                         <span class="font-bold text-xl">${item.bank}</span>
                     </td>
                     <td class="py-8 px-8 text-blue-400 font-bold text-lg">${item.rrso}%</td>
@@ -46,6 +63,16 @@
                 </tr>
             `).join('');
         }
+
+        function sortRanking(order) {
+            const sortedData = [...rankingData].sort((a, b) => {
+                const rrsoA = parseFloat(a.rrso);
+                const rrsoB = parseFloat(b.rrso);
+                return order === 'asc' ? rrsoA - rrsoB : rrsoB - rrsoA;
+            });
+            renderTable(sortedData);
+        }
+
         loadRanking();
     </script>
     <script src="js/main.js"></script>
