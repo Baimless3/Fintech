@@ -1,8 +1,22 @@
 {
     "kredyty": [
-        { "tytul": "Kredyt hipoteczny krok po kroku", "url": "https://www.bankier.pl/smart/poradniki/kredyt-hipoteczny-krok-po-kroku" }
+        { 
+            "tytul": "Kredyt hipoteczny krok po kroku - Poradnik Bankier.pl", 
+            "url": "https://www.bankier.pl/smart/poradniki/kredyt-hipoteczny-krok-po-kroku" 
+        },
+        { 
+            "tytul": "Jak zbudować zdolność kredytową przed wnioskiem?", 
+            "url": "https://jakoszczedzacpieniadze.pl/zdolnosc-kredytowa" 
+        }
     ],
     "ksiegowosc": [
-        { "tytul": "KSeF – wszystko co musisz wiedzieć", "url": "https://www.infakt.pl/blog/ksef/" }
+        { 
+            "tytul": "KSeF – wszystko co musisz wiedzieć o e-fakturach (InFakt)", 
+            "url": "https://www.infakt.pl/blog/ksef/" 
+        },
+        { 
+            "tytul": "Faktura VAT czy ryczałt? Porównanie form opodatkowania", 
+            "url": "https://wfirma.pl/a/wybor-formy-opodatkowania-dzialalnosci-gospodarczej" 
+        }
     ]
 }
