@@ -3,84 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Ranking Kredytów 2026</title>
-    <style>
-        .btn-active { background-color: #2563eb !important; color: white !important; }
-    </style>
+    <title>Ranking</title>
 </head>
-<body class="bg-slate-950 text-white font-sans">
-    <main class="max-w-6xl mx-auto py-20 px-6 text-center">
-        <h1 class="text-4xl font-bold mb-10">Ranking <span class="text-blue-500">Kredytów 2026</span></h1>
-        
-        <div class="flex justify-center gap-4 mb-12">
-            <button id="sort-low" onclick="sortData('low')" class="bg-slate-800 px-6 py-2 rounded-full font-bold hover:bg-slate-700 transition">Najniższe RRSO ↑</button>
-            <button id="sort-high" onclick="sortData('high')" class="bg-slate-800 px-6 py-2 rounded-full font-bold hover:bg-slate-700 transition">Najwyższe RRSO ↓</button>
-        </div>
-        
-        <div id="ranking-container" class="space-y-16 text-left"></div>
-    </main>
-
-    <script>
-        let allData = [];
-
-        async function init() {
-            try {
-                const res = await fetch('data.json');
-                allData = await res.json();
-                render(allData);
-            } catch (e) {
-                console.error("Nie udało się wczytać danych:", e);
-            }
-        }
-
-        function sortData(order) {
-            // Podświetlanie przycisku
-            document.getElementById('sort-low').classList.remove('btn-active');
-            document.getElementById('sort-high').classList.remove('btn-active');
-            document.getElementById(order === 'low' ? 'sort-low' : 'sort-high').classList.add('btn-active');
-
-            // Sortowanie
-            const sorted = [...allData].sort((a, b) => {
-                const valA = parseFloat(a.rrso.replace('%', ''));
-                const valB = parseFloat(b.rrso.replace('%', ''));
-                return order === 'low' ? valA - valB : valB - valA;
-            });
-            render(sorted);
-        }
-
-        function render(data) {
-            const container = document.getElementById('ranking-container');
-            container.innerHTML = ''; // CZYŚCIMY KONTENER PRZED RENDEROWANIEM
-            
-            const groups = data.reduce((acc, item) => {
-                (acc[item.grupa] = acc[item.grupa] || []).push(item);
-                return acc;
-            }, {});
-
-            Object.keys(groups).forEach(groupName => {
-                const section = document.createElement('section');
-                section.innerHTML = `
-                    <h2 class="text-xl font-bold text-blue-500 mb-6 border-l-4 border-blue-500 pl-4 uppercase tracking-widest">${groupName}</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        ${groups[groupName].map(item => `
-                            <div class="bg-slate-900 p-4 rounded-xl flex items-center justify-between border border-slate-800 hover:border-blue-500 transition">
-                                <div class="flex items-center gap-4">
-                                    <img src="${item.logo}" alt="${item.bank}" class="w-10 h-10 object-contain bg-white rounded-md p-1">
-                                    <div>
-                                        <div class="font-semibold text-sm">${item.bank}</div>
-                                        <div class="text-xs text-blue-400 font-bold">RRSO: ${item.rrso || '0%'}</div>
-                                    </div>
-                                </div>
-                                <a href="${item.link}" class="bg-blue-600 px-4 py-2 rounded-lg text-xs font-bold hover:bg-blue-500">INFO →</a>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-                container.appendChild(section);
-            });
-        }
-        
-        init();
-    </script>
-</body>
+<body class="bg-slate-950 text-white py-10">
+    <nav class="flex justify-center gap-6 mb-10">
+        <a href="index.html" class="text-slate-400 hover:text-white">Start</a>
+        <a href="ranking.html" class="text-blue-500 font-bold border-b-2 border-blue-500">Ranking</a>
+        <a href="kalkulatory.html" class="text-slate-400 hover:text-white">Kalkulatory</a>
+    </nav>
+    
+    </body>
 </html>
