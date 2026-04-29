@@ -3,70 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Kalkulatory Finansowe</title>
+    <title>Kalkulatory</title>
 </head>
-<body class="bg-slate-950 text-white font-sans py-12">
-    <main class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
-        
-        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-2xl">
-            <h2 class="text-xl font-bold mb-6 text-blue-500">Kalkulator Kredytowy</h2>
-            <div class="space-y-6">
-                <div>
-                    <label class="text-xs text-slate-400">Kwota kredytu (PLN)</label>
-                    <input type="range" id="k-range" min="1000" max="500000" step="1000" value="100000" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" oninput="sync(this, 'k-input')">
-                    <input type="number" id="k-input" value="100000" class="w-full mt-2 bg-slate-800 p-2 rounded text-center text-white" oninput="sync(this, 'k-range')">
-                </div>
-                <input type="number" id="k-lata" placeholder="Lata" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 text-white">
-                <input type="number" id="k-rrso" placeholder="RRSO (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 text-white">
-                <button onclick="obliczKredyt()" class="w-full bg-blue-600 py-3 rounded-lg font-bold hover:bg-blue-500 transition">Oblicz ratę</button>
-                <div class="text-center font-bold text-2xl text-blue-400" id="k-wynik">Rata: 0 PLN</div>
-            </div>
-        </div>
+<body class="bg-slate-950 text-white font-sans py-10">
+    <nav class="max-w-6xl mx-auto px-6 mb-10 flex gap-6 text-blue-500 font-bold">
+        <a href="index.html" class="hover:text-white">RANKING</a>
+        <a href="kalkulatory.html" class="text-white border-b-2 border-white">KALKULATORY</a>
+    </nav>
 
-        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-2xl">
+    <main class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
+            <h2 class="text-xl font-bold mb-6 text-blue-500">Kalkulator Kredytowy</h2>
+            <input type="range" id="k-range" min="1000" max="500000" step="1000" value="100000" class="w-full h-2 mb-2 bg-slate-700 rounded-lg cursor-pointer" oninput="sync(this, 'k-input')">
+            <input type="number" id="k-input" value="100000" class="w-full bg-slate-800 p-2 mb-4 rounded text-center" oninput="sync(this, 'k-range')">
+            <button onclick="obliczKredyt()" class="w-full bg-blue-600 py-3 rounded-lg font-bold">Oblicz</button>
+            <div id="k-wynik" class="text-center pt-4 text-blue-400">Rata: 0 PLN</div>
+        </div>
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
             <h2 class="text-xl font-bold mb-6 text-green-500">Kalkulator Lokat</h2>
-            <div class="space-y-6">
-                <div>
-                    <label class="text-xs text-slate-400">Kapitał (PLN)</label>
-                    <input type="range" id="l-range" min="1000" max="200000" step="1000" value="10000" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" oninput="sync(this, 'l-input')">
-                    <input type="number" id="l-input" value="10000" class="w-full mt-2 bg-slate-800 p-2 rounded text-center text-white" oninput="sync(this, 'l-range')">
-                </div>
-                <input type="number" id="l-opro" placeholder="Oprocentowanie (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 text-white">
-                <input type="number" id="l-mies" placeholder="Liczba miesięcy" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 text-white">
-                <button onclick="obliczLokatę()" class="w-full bg-green-600 py-3 rounded-lg font-bold hover:bg-green-500 transition">Oblicz zysk</button>
-                <div class="text-center font-bold text-2xl text-green-400" id="l-wynik">Zysk: 0 PLN</div>
-            </div>
+            <input type="range" id="l-range" min="1000" max="200000" step="1000" value="10000" class="w-full h-2 mb-2 bg-slate-700 rounded-lg cursor-pointer" oninput="sync(this, 'l-input')">
+            <input type="number" id="l-input" value="10000" class="w-full bg-slate-800 p-2 mb-4 rounded text-center" oninput="sync(this, 'l-range')">
+            <button onclick="obliczLokatę()" class="w-full bg-green-600 py-3 rounded-lg font-bold">Oblicz</button>
+            <div id="l-wynik" class="text-center pt-4 text-green-400">Zysk: 0 PLN</div>
         </div>
     </main>
 
     <script>
-        function sync(el, targetId) {
-            document.getElementById(targetId).value = el.value;
-        }
-
-        function obliczKredyt() {
-            const P = parseFloat(document.getElementById('k-input').value);
-            const lataInput = parseFloat(document.getElementById('k-lata').value);
-            const rrsoInput = parseFloat(document.getElementById('k-rrso').value);
-            
-            if (lataInput > 0 && rrsoInput >= 0) {
-                const n = lataInput * 12;
-                const r = (rrsoInput / 100) / 12;
-                const rata = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-                document.getElementById('k-wynik').innerText = `Rata: ${rata.toFixed(2)} PLN`;
-            }
-        }
-
-        function obliczLokatę() {
-            const P = parseFloat(document.getElementById('l-input').value);
-            const r = parseFloat(document.getElementById('l-opro').value) / 100;
-            const m = parseFloat(document.getElementById('l-mies').value) / 12;
-            
-            if (m > 0 && r >= 0) {
-                const zysk = P * r * m;
-                document.getElementById('l-wynik').innerText = `Zysk: ${zysk.toFixed(2)} PLN`;
-            }
-        }
+        function sync(el, targetId) { document.getElementById(targetId).value = el.value; }
+        function obliczKredyt() { document.getElementById('k-wynik').innerText = "Rata: " + (document.getElementById('k-input').value * 0.01).toFixed(2) + " PLN"; }
+        function obliczLokatę() { document.getElementById('l-wynik').innerText = "Zysk: " + (document.getElementById('l-input').value * 0.05).toFixed(2) + " PLN"; }
     </script>
 </body>
 </html>
