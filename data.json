@@ -1,11 +1,9 @@
 [
-    { "bank": "Santander", "logo": "images/SPL.WA-64cba166.png", "rrso": "8.50", "prowizja": "0%", "link": "#" },
-    { "bank": "PKO BP", "logo": "images/pko.png", "rrso": "7.50", "prowizja": "0.5%", "link": "#" },
-    { "bank": "Pekao", "logo": "images/pekao.png", "rrso": "9.00", "prowizja": "0%", "link": "#" },
-    { "bank": "ING", "logo": "images/ing.png", "rrso": "9.20", "prowizja": "0%", "link": "#" },
-    { "bank": "mBank", "logo": "images/mbank.png", "rrso": "8.50", "prowizja": "0%", "link": "#" },
-    { "bank": "BNP Paribas", "logo": "images/bnp.png", "rrso": "10.00", "prowizja": "1%", "link": "#" },
-    { "bank": "Millennium", "logo": "images/milenium.png", "rrso": "9.50", "prowizja": "0%", "link": "#" },
-    { "bank": "Alior Bank", "logo": "images/alior.png", "rrso": "10.50", "prowizja": "0%", "link": "#" },
-    { "bank": "Citi Handlowy", "logo": "images/citi.png", "rrso": "11.00", "prowizja": "0%", "link": "#" }
+    { "bank": "mBank", "kategoria": "uniwersalne", "logo": "images/mbank.png", "rrso": "8.50", "prowizja": "0%", "link": "#" },
+    { "bank": "Alior Bank", "kategoria": "uniwersalne", "logo": "images/alior.png", "rrso": "10.50", "prowizja": "0%", "link": "#" },
+    { "bank": "PKO BP", "kategoria": "uniwersalne", "logo": "images/pko.png", "rrso": "7.50", "prowizja": "0.5%", "link": "#" },
+    { "bank": "Revolut", "kategoria": "cyfrowe", "logo": "images/revolut.png", "rrso": "12.00", "prowizja": "0%", "link": "#" },
+    { "bank": "mBank Hipoteczny", "kategoria": "hipoteczne", "logo": "images/mbank.png", "rrso": "8.00", "prowizja": "0%", "link": "#" },
+    { "bank": "Goldman Sachs", "kategoria": "inwestycyjne", "logo": "images/goldman.png", "rrso": "0", "prowizja": "0", "link": "#" },
+    { "bank": "Nest Bank", "kategoria": "uniwersalne", "logo": "images/nest.png", "rrso": "9.50", "prowizja": "0%", "link": "#" }
 ]
