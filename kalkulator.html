@@ -8,42 +8,55 @@
 <body class="bg-slate-950 text-white font-sans py-12">
     <main class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
         
-        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
-            <h2 class="text-xl font-bold mb-6 text-blue-500">Kalkulator Kredytowy</h2>
-            <div class="space-y-4">
-                <input type="number" id="k-kwota" placeholder="Kwota (PLN)" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-2xl">
+            <h2 class="text-xl font-bold mb-6 text-blue-500">Kredyt</h2>
+            <div class="space-y-6">
+                <div>
+                    <label class="text-xs text-slate-400">Kwota kredytu (PLN)</label>
+                    <input type="range" id="k-range" min="1000" max="500000" step="1000" value="100000" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" oninput="sync(this, 'k-input')">
+                    <input type="number" id="k-input" value="100000" class="w-full mt-2 bg-slate-800 p-2 rounded text-center" oninput="sync(this, 'k-range')">
+                </div>
                 <input type="number" id="k-lata" placeholder="Lata" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
                 <input type="number" id="k-rrso" placeholder="RRSO (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                
                 <button onclick="obliczKredyt()" class="w-full bg-blue-600 py-3 rounded-lg font-bold hover:bg-blue-500 transition">Oblicz ratę</button>
-                <div id="k-wynik" class="text-center font-bold text-lg pt-4">Rata: 0 PLN</div>
+                <div class="text-center font-bold text-2xl text-blue-400" id="k-wynik">Rata: 0 PLN</div>
             </div>
         </div>
 
-        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
-            <h2 class="text-xl font-bold mb-6 text-green-500">Kalkulator Lokat</h2>
-            <div class="space-y-4">
-                <input type="number" id="l-kwota" placeholder="Kapitał (PLN)" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-2xl">
+            <h2 class="text-xl font-bold mb-6 text-green-500">Lokata</h2>
+            <div class="space-y-6">
+                <div>
+                    <label class="text-xs text-slate-400">Kapitał (PLN)</label>
+                    <input type="range" id="l-range" min="1000" max="200000" step="1000" value="10000" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" oninput="sync(this, 'l-input')">
+                    <input type="number" id="l-input" value="10000" class="w-full mt-2 bg-slate-800 p-2 rounded text-center" oninput="sync(this, 'l-range')">
+                </div>
                 <input type="number" id="l-opro" placeholder="Oprocentowanie (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
                 <input type="number" id="l-mies" placeholder="Liczba miesięcy" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                
                 <button onclick="obliczLokatę()" class="w-full bg-green-600 py-3 rounded-lg font-bold hover:bg-green-500 transition">Oblicz zysk</button>
-                <div id="l-wynik" class="text-center font-bold text-lg pt-4">Zysk: 0 PLN</div>
+                <div class="text-center font-bold text-2xl text-green-400" id="l-wynik">Zysk: 0 PLN</div>
             </div>
         </div>
     </main>
 
     <script>
-        // Kredyt
+        // Funkcja synchronizacji suwaka z polem tekstowym
+        function sync(el, targetId) {
+            document.getElementById(targetId).value = el.value;
+        }
+
         function obliczKredyt() {
-            const P = parseFloat(document.getElementById('k-kwota').value);
+            const P = parseFloat(document.getElementById('k-input').value);
             const n = parseFloat(document.getElementById('k-lata').value) * 12;
             const r = (parseFloat(document.getElementById('k-rrso').value) / 100) / 12;
             const rata = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
             document.getElementById('k-wynik').innerText = `Rata: ${rata.toFixed(2)} PLN`;
         }
 
-        // Lokata (uproszczony wzór: Kapitał * oprocentowanie * czas w latach)
         function obliczLokatę() {
-            const P = parseFloat(document.getElementById('l-kwota').value);
+            const P = parseFloat(document.getElementById('l-input').value);
             const r = parseFloat(document.getElementById('l-opro').value) / 100;
             const m = parseFloat(document.getElementById('l-mies').value) / 12;
             const zysk = P * r * m;
@@ -61,42 +74,55 @@
 <body class="bg-slate-950 text-white font-sans py-12">
     <main class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
         
-        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
-            <h2 class="text-xl font-bold mb-6 text-blue-500">Kalkulator Kredytowy</h2>
-            <div class="space-y-4">
-                <input type="number" id="k-kwota" placeholder="Kwota (PLN)" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-2xl">
+            <h2 class="text-xl font-bold mb-6 text-blue-500">Kredyt</h2>
+            <div class="space-y-6">
+                <div>
+                    <label class="text-xs text-slate-400">Kwota kredytu (PLN)</label>
+                    <input type="range" id="k-range" min="1000" max="500000" step="1000" value="100000" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" oninput="sync(this, 'k-input')">
+                    <input type="number" id="k-input" value="100000" class="w-full mt-2 bg-slate-800 p-2 rounded text-center" oninput="sync(this, 'k-range')">
+                </div>
                 <input type="number" id="k-lata" placeholder="Lata" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
                 <input type="number" id="k-rrso" placeholder="RRSO (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                
                 <button onclick="obliczKredyt()" class="w-full bg-blue-600 py-3 rounded-lg font-bold hover:bg-blue-500 transition">Oblicz ratę</button>
-                <div id="k-wynik" class="text-center font-bold text-lg pt-4">Rata: 0 PLN</div>
+                <div class="text-center font-bold text-2xl text-blue-400" id="k-wynik">Rata: 0 PLN</div>
             </div>
         </div>
 
-        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
-            <h2 class="text-xl font-bold mb-6 text-green-500">Kalkulator Lokat</h2>
-            <div class="space-y-4">
-                <input type="number" id="l-kwota" placeholder="Kapitał (PLN)" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-2xl">
+            <h2 class="text-xl font-bold mb-6 text-green-500">Lokata</h2>
+            <div class="space-y-6">
+                <div>
+                    <label class="text-xs text-slate-400">Kapitał (PLN)</label>
+                    <input type="range" id="l-range" min="1000" max="200000" step="1000" value="10000" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" oninput="sync(this, 'l-input')">
+                    <input type="number" id="l-input" value="10000" class="w-full mt-2 bg-slate-800 p-2 rounded text-center" oninput="sync(this, 'l-range')">
+                </div>
                 <input type="number" id="l-opro" placeholder="Oprocentowanie (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
                 <input type="number" id="l-mies" placeholder="Liczba miesięcy" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                
                 <button onclick="obliczLokatę()" class="w-full bg-green-600 py-3 rounded-lg font-bold hover:bg-green-500 transition">Oblicz zysk</button>
-                <div id="l-wynik" class="text-center font-bold text-lg pt-4">Zysk: 0 PLN</div>
+                <div class="text-center font-bold text-2xl text-green-400" id="l-wynik">Zysk: 0 PLN</div>
             </div>
         </div>
     </main>
 
     <script>
-        // Kredyt
+        // Funkcja synchronizacji suwaka z polem tekstowym
+        function sync(el, targetId) {
+            document.getElementById(targetId).value = el.value;
+        }
+
         function obliczKredyt() {
-            const P = parseFloat(document.getElementById('k-kwota').value);
+            const P = parseFloat(document.getElementById('k-input').value);
             const n = parseFloat(document.getElementById('k-lata').value) * 12;
             const r = (parseFloat(document.getElementById('k-rrso').value) / 100) / 12;
             const rata = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
             document.getElementById('k-wynik').innerText = `Rata: ${rata.toFixed(2)} PLN`;
         }
 
-        // Lokata (uproszczony wzór: Kapitał * oprocentowanie * czas w latach)
         function obliczLokatę() {
-            const P = parseFloat(document.getElementById('l-kwota').value);
+            const P = parseFloat(document.getElementById('l-input').value);
             const r = parseFloat(document.getElementById('l-opro').value) / 100;
             const m = parseFloat(document.getElementById('l-mies').value) / 12;
             const zysk = P * r * m;
