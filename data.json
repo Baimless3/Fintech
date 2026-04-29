@@ -1,9 +1,20 @@
 [
-    { "bank": "mBank", "kategoria": "uniwersalne", "logo": "images/mbank.png", "rrso": "8.50", "prowizja": "0%", "link": "#" },
-    { "bank": "Alior Bank", "kategoria": "uniwersalne", "logo": "images/alior.png", "rrso": "10.50", "prowizja": "0%", "link": "#" },
-    { "bank": "PKO BP", "kategoria": "uniwersalne", "logo": "images/pko.png", "rrso": "7.50", "prowizja": "0.5%", "link": "#" },
-    { "bank": "Revolut", "kategoria": "cyfrowe", "logo": "images/revolut.png", "rrso": "12.00", "prowizja": "0%", "link": "#" },
-    { "bank": "mBank Hipoteczny", "kategoria": "hipoteczne", "logo": "images/mbank.png", "rrso": "8.00", "prowizja": "0%", "link": "#" },
-    { "bank": "Goldman Sachs", "kategoria": "inwestycyjne", "logo": "images/goldman.png", "rrso": "0", "prowizja": "0", "link": "#" },
-    { "bank": "Nest Bank", "kategoria": "uniwersalne", "logo": "images/nest.png", "rrso": "9.50", "prowizja": "0%", "link": "#" }
+  { "bank": "PKO BP", "grupa": "Banki komercyjne", "logo": "images/pko.png", "rrso": "7.50", "link": "#" },
+  { "bank": "Bank Pekao", "grupa": "Banki komercyjne", "logo": "images/pekao.png", "rrso": "9.00", "link": "#" },
+  { "bank": "Santander Bank Polska", "grupa": "Banki komercyjne", "logo": "images/santander.png", "rrso": "8.50", "link": "#" },
+  { "bank": "ING Bank Śląski", "grupa": "Banki komercyjne", "logo": "images/ing.png", "rrso": "9.20", "link": "#" },
+  { "bank": "mBank", "grupa": "Banki komercyjne", "logo": "images/mbank.png", "rrso": "8.50", "link": "#" },
+  { "bank": "Alior Bank", "grupa": "Banki komercyjne", "logo": "images/alior.png", "rrso": "10.50", "link": "#" },
+  { "bank": "BNP Paribas", "grupa": "Banki komercyjne", "logo": "images/bnp.png", "rrso": "10.00", "link": "#" },
+  { "bank": "VeloBank", "grupa": "Banki komercyjne", "logo": "images/velobank.png", "rrso": "9.00", "link": "#" },
+  { "bank": "Nest Bank", "grupa": "Banki komercyjne", "logo": "images/nestbank.png", "rrso": "9.50", "link": "#" },
+  { "bank": "Bank Millennium", "grupa": "Banki komercyjne", "logo": "images/milenium.png", "rrso": "9.50", "link": "#" },
+  { "bank": "Citi Handlowy", "grupa": "Banki komercyjne", "logo": "images/citi.png", "rrso": "11.00", "link": "#" },
+  { "bank": "Revolut", "grupa": "Banki cyfrowe", "logo": "images/revolut.png", "rrso": "12.00", "link": "#" },
+  { "bank": "Aion Bank", "grupa": "Banki cyfrowe", "logo": "images/aion.png", "rrso": "0.00", "link": "#" },
+  { "bank": "N26", "grupa": "Banki cyfrowe", "logo": "images/n26.png", "rrso": "0.00", "link": "#" },
+  { "bank": "Goldman Sachs", "grupa": "Banki inwestycyjne", "logo": "images/goldman.png", "rrso": "0.00", "link": "#" },
+  { "bank": "Erste Group", "grupa": "Banki inwestycyjne", "logo": "images/erste.png", "rrso": "0.00", "link": "#" },
+  { "bank": "Bank Gospodarstwa Krajowego", "grupa": "Banki państwowe", "logo": "images/bgk.png", "rrso": "0.00", "link": "#" },
+  { "bank": "Narodowy Bank Polski", "grupa": "Bank centralny", "logo": "images/nbp.png", "rrso": "0.00", "link": "#" }
 ]
