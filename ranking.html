@@ -3,49 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Pełny Ranking Banków 2026</title>
+    <title>Finanse 2026</title>
+    <style>
+        .btn-active { background-color: #2563eb !important; color: white !important; }
+    </style>
 </head>
-<body class="bg-slate-950 text-white font-sans">
-    <main class="max-w-6xl mx-auto py-20 px-6">
-        <h1 class="text-4xl font-bold mb-16 text-center">Zestawienie <span class="text-blue-500">Banków</span></h1>
-        <div id="ranking-container" class="space-y-16"></div>
+<body class="bg-slate-950 text-white font-sans py-10">
+
+    <main class="max-w-6xl mx-auto px-6">
+        <h1 class="text-4xl font-bold mb-10 text-center">Ranking <span class="text-blue-500">Kredytów 2026</span></h1>
+        <div class="flex justify-center gap-4 mb-12">
+            <button id="sort-low" onclick="sortData('low')" class="bg-slate-800 px-6 py-2 rounded-full font-bold hover:bg-slate-700 transition">Najniższe RRSO ↑</button>
+            <button id="sort-high" onclick="sortData('high')" class="bg-slate-800 px-6 py-2 rounded-full font-bold hover:bg-slate-700 transition">Najwyższe RRSO ↓</button>
+        </div>
+        <div id="ranking-container" class="space-y-16 mb-20"></div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-20">
+            <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
+                <h2 class="text-xl font-bold mb-6 text-blue-500">Kalkulator Kredytowy</h2>
+                <input type="range" id="k-range" min="1000" max="500000" step="1000" value="100000" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer" oninput="sync(this, 'k-input')">
+                <input type="number" id="k-input" value="100000" class="w-full mt-2 mb-4 bg-slate-800 p-2 rounded text-center">
+                <input type="number" id="k-lata" placeholder="Lata" class="w-full mb-4 bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="k-rrso" placeholder="RRSO (%)" step="0.1" class="w-full mb-4 bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <button onclick="obliczKredyt()" class="w-full bg-blue-600 py-3 rounded-lg font-bold hover:bg-blue-500">Oblicz ratę</button>
+                <div id="k-wynik" class="text-center font-bold text-xl pt-4 text-blue-400">Rata: 0 PLN</div>
+            </div>
+            <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
+                <h2 class="text-xl font-bold mb-6 text-green-500">Kalkulator Lokat</h2>
+                <input type="range" id="l-range" min="1000" max="200000" step="1000" value="10000" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer" oninput="sync(this, 'l-input')">
+                <input type="number" id="l-input" value="10000" class="w-full mt-2 mb-4 bg-slate-800 p-2 rounded text-center">
+                <input type="number" id="l-opro" placeholder="Oprocentowanie (%)" step="0.1" class="w-full mb-4 bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="l-mies" placeholder="Liczba miesięcy" class="w-full mb-4 bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <button onclick="obliczLokatę()" class="w-full bg-green-600 py-3 rounded-lg font-bold hover:bg-green-500">Oblicz zysk</button>
+                <div id="l-wynik" class="text-center font-bold text-xl pt-4 text-green-400">Zysk: 0 PLN</div>
+            </div>
+        </div>
+
+        <section class="bg-slate-900 p-10 rounded-2xl border border-slate-800">
+            <h2 class="text-2xl font-bold mb-8 text-yellow-500">Słowniczek finansowy</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Co to jest RRSO?</h3>
+                    <p class="text-slate-400 text-sm">Rzeczywista Roczna Stopa Oprocentowania określa całkowity koszt kredytu ponoszony przez konsumenta. Uwzględnia nie tylko odsetki, ale i prowizje.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Raty równe vs malejące</h3>
+                    <p class="text-slate-400 text-sm">Raty równe (annuitetowe) są stałe w czasie. Raty malejące na początku są wyższe, ale z czasem ich wysokość spada, co zmniejsza łączny koszt odsetek.</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
+        // Logika wspólna
+        let allData = [];
         async function init() {
-            try {
-                const res = await fetch('data.json');
-                const data = await res.json();
-                const groups = data.reduce((acc, item) => {
-                    (acc[item.grupa] = acc[item.grupa] || []).push(item);
-                    return acc;
-                }, {});
+            const res = await fetch('data.json');
+            allData = await res.json();
+            render(allData);
+        }
+        function sync(el, targetId) { document.getElementById(targetId).value = el.value; }
+        
+        // Funkcje kalkulatorów
+        function obliczKredyt() {
+            const P = parseFloat(document.getElementById('k-input').value);
+            const n = parseFloat(document.getElementById('k-lata').value) * 12;
+            const r = (parseFloat(document.getElementById('k-rrso').value) / 100) / 12;
+            const rata = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            document.getElementById('k-wynik').innerText = `Rata: ${rata.toFixed(2)} PLN`;
+        }
+        function obliczLokatę() {
+            const P = parseFloat(document.getElementById('l-input').value);
+            const r = parseFloat(document.getElementById('l-opro').value) / 100;
+            const m = parseFloat(document.getElementById('l-mies').value) / 12;
+            document.getElementById('l-wynik').innerText = `Zysk: ${(P * r * m).toFixed(2)} PLN`;
+        }
 
-                const container = document.getElementById('ranking-container');
-                Object.keys(groups).forEach(groupName => {
-                    const section = document.createElement('section');
-                    section.innerHTML = `
-                        <h2 class="text-xl font-bold text-blue-500 mb-6 border-l-4 border-blue-500 pl-4 uppercase tracking-widest">${groupName}</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            ${groups[groupName].map(item => `
-                                <div class="bg-slate-900 p-4 rounded-xl flex items-center justify-between border border-slate-800 hover:border-blue-500 transition">
-                                    <div class="flex items-center gap-4">
-                                        <img src="${item.logo}" alt="${item.bank}" class="w-10 h-10 object-contain bg-white rounded-md p-1">
-                                        <div>
-                                            <div class="font-semibold text-sm">${item.bank}</div>
-                                            <div class="text-xs text-blue-400 font-bold">RRSO: ${item.rrso || 'Brak danych'}</div>
-                                        </div>
-                                    </div>
-                                    <a href="${item.link}" class="bg-blue-600 px-4 py-2 rounded-lg text-xs font-bold hover:bg-blue-500">INFO →</a>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                    container.appendChild(section);
-                });
-            } catch (err) {
-                console.error("Błąd wczytywania danych:", err);
-            }
+        // Renderowanie rankingu (identyczne jak poprzednio)
+        function sortData(order) {
+            document.getElementById('sort-low').classList.toggle('btn-active', order === 'low');
+            document.getElementById('sort-high').classList.toggle('btn-active', order === 'high');
+            const sorted = [...allData].sort((a, b) => order === 'low' ? parseFloat(a.rrso) - parseFloat(b.rrso) : parseFloat(b.rrso) - parseFloat(a.rrso));
+            render(sorted);
+        }
+        function render(data) {
+            const container = document.getElementById('ranking-container');
+            container.innerHTML = '';
+            const groups = data.reduce((acc, item) => { (acc[item.grupa] = acc[item.grupa] || []).push(item); return acc; }, {});
+            Object.keys(groups).forEach(g => {
+                const sec = document.createElement('section');
+                sec.innerHTML = `<h2 class="text-xl font-bold text-blue-500 mb-6 border-l-4 border-blue-500 pl-4 uppercase">${g}</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-4">${groups[g].map(i => `<div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex items-center justify-between"><div class="flex items-center gap-3"><img src="${i.logo}" class="w-8 h-8 object-contain bg-white rounded p-0.5"><div><div class="font-bold text-sm">${i.bank}</div><div class="text-xs text-blue-400">RRSO: ${i.rrso}</div></div></div><a href="${i.link}" class="bg-blue-600 px-3 py-1 rounded text-xs">INFO</a></div>`).join('')}</div>`;
+                container.appendChild(sec);
+            });
         }
         init();
     </script>
