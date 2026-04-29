@@ -3,73 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Ranking Kredytów 2026</title>
+    <title>Ranking Banków 2026</title>
 </head>
 <body class="bg-slate-950 text-white">
 
-    <main class="max-w-5xl mx-auto py-24 px-6">
-        <h1 class="text-5xl font-bold mb-12 text-center">Ranking <span class="text-blue-500">Kredytów 2026</span></h1>
-
-        <div class="flex flex-wrap gap-2 justify-center mb-8">
-            <button onclick="filterRanking('wszystkie', this)" class="filter-btn px-4 py-2 bg-blue-600 rounded-lg font-bold">Wszystkie</button>
-            <button onclick="filterRanking('uniwersalne', this)" class="filter-btn px-4 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600">Uniwersalne</button>
-            <button onclick="filterRanking('cyfrowe', this)" class="filter-btn px-4 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600">Cyfrowe</button>
-            <button onclick="filterRanking('hipoteczne', this)" class="filter-btn px-4 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600">Hipoteczne</button>
-        </div>
-
-        <div class="flex gap-4 justify-center mb-10">
-            <button id="btn-asc" onclick="sortRanking('asc', this)" class="sort-btn px-6 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600">Najniższe RRSO ↑</button>
-            <button id="btn-desc" onclick="sortRanking('desc', this)" class="sort-btn px-6 py-2 bg-slate-700 rounded-lg font-bold hover:bg-slate-600">Najwyższe RRSO ↓</button>
-        </div>
-
-        <div class="bg-slate-900 rounded-xl overflow-hidden">
-            <table class="w-full text-left">
-                <tbody id="ranking-body"></tbody>
-            </table>
-        </div>
+    <main class="max-w-6xl mx-auto py-24 px-6">
+        <h1 class="text-5xl font-bold mb-16 text-center">Zestawienie <span class="text-blue-500">Banków</span></h1>
+        
+        <div id="ranking-container" class="space-y-16">
+            </div>
     </main>
 
     <script>
-        let rankingData = [];
-        let currentData = [];
-
-        async function loadRanking() {
+        async function initRanking() {
             const res = await fetch('data.json');
-            rankingData = await res.json();
-            currentData = rankingData;
-            renderTable(currentData);
-        }
+            const data = await res.json();
+            
+            const grouped = data.reduce((acc, bank) => {
+                (acc[bank.grupa] = acc[bank.grupa] || []).push(bank);
+                return acc;
+            }, {});
 
-        function renderTable(data) {
-            const tbody = document.getElementById('ranking-body');
-            tbody.innerHTML = data.map(item => `
-                <tr class="border-b border-slate-800 hover:bg-blue-950/20">
-                    <td class="py-6 px-8 flex items-center gap-6">
-                        <img src="${item.logo}" class="w-12 h-12 bg-white rounded-lg p-1 object-contain">
-                        <span class="font-bold text-xl">${item.bank}</span>
-                    </td>
-                    <td class="py-6 px-8 text-blue-400 font-bold">${item.rrso}%</td>
-                    <td class="py-6 px-8">${item.prowizja}</td>
-                    <td class="py-6 px-8"><a href="${item.link}" class="bg-blue-600 px-6 py-2 rounded-lg font-bold">Wybierz</a></td>
-                </tr>
-            `).join('');
+            const container = document.getElementById('ranking-container');
+            
+            Object.keys(grouped).forEach(grupa => {
+                const section = document.createElement('section');
+                section.innerHTML = `
+                    <h2 class="text-2xl font-bold text-blue-500 mb-6 border-l-4 border-blue-500 pl-4 uppercase tracking-wider">${grupa}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        ${grouped[grupa].map(item => `
+                            <div class="bg-slate-900 p-4 rounded-xl flex items-center justify-between border border-slate-800 hover:border-blue-500 transition">
+                                <div class="flex items-center gap-4">
+                                    <img src="${item.logo}" alt="${item.bank}" class="w-10 h-10 object-contain bg-white rounded-md p-1">
+                                    <span class="font-semibold">${item.bank}</span>
+                                </div>
+                                <a href="${item.link}" class="text-blue-400 font-bold text-xs hover:text-white">INFO →</a>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(section);
+            });
         }
-
-        function filterRanking(kat, btn) {
-            currentData = kat === 'wszystkie' ? rankingData : rankingData.filter(i => i.kategoria === kat);
-            renderTable(currentData);
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.replace('bg-blue-600', 'bg-slate-700'));
-            btn.classList.replace('bg-slate-700', 'bg-blue-600');
-        }
-
-        function sortRanking(order, btn) {
-            currentData = [...currentData].sort((a, b) => order === 'asc' ? parseFloat(a.rrso) - parseFloat(b.rrso) : parseFloat(b.rrso) - parseFloat(a.rrso));
-            renderTable(currentData);
-            document.querySelectorAll('.sort-btn').forEach(b => b.classList.replace('bg-blue-600', 'bg-slate-700'));
-            btn.classList.replace('bg-slate-700', 'bg-blue-600');
-        }
-
-        loadRanking();
+        initRanking();
     </script>
 </body>
 </html>
