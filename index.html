@@ -1,45 +1,32 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Ranking Kredytów</title>
 </head>
-<body class="bg-slate-950 text-white font-sans py-10">
-    <nav class="max-w-6xl mx-auto px-6 mb-10 flex gap-6 text-blue-500 font-bold">
-        <a href="index.html" class="text-white border-b-2 border-white">RANKING</a>
-        <a href="kalkulatory.html" class="hover:text-white">KALKULATORY</a>
-    </nav>
-
-    <main class="max-w-6xl mx-auto px-6">
-        <section class="bg-slate-900 p-8 rounded-2xl border border-slate-800 mb-12">
-            <h2 class="text-2xl font-bold mb-6 text-yellow-500">Słowniczek finansowy</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <p class="text-slate-400 text-sm"><strong class="text-white">RRSO:</strong> Rzeczywista Roczna Stopa Oprocentowania – całkowity koszt kredytu.</p>
-                <p class="text-slate-400 text-sm"><strong class="text-white">Raty:</strong> Równe są stałe, malejące pozwalają szybciej spłacić odsetki.</p>
-            </div>
-        </section>
-
-        <h1 class="text-4xl font-bold mb-10 text-center">Ranking <span class="text-blue-500">Kredytów 2026</span></h1>
-        <div id="ranking-container" class="space-y-16"></div>
-    </main>
-
+<body class="bg-slate-950 text-white">
+    <div id="ranking-container" class="grid gap-4 p-10"></div>
+    
     <script>
-        async function init() {
-            const res = await fetch('data.json');
-            const data = await res.json();
-            render(data);
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                const container = document.getElementById('ranking-container');
+                
+                container.innerHTML = data.map(item => `
+                    <div class="bg-slate-900 p-4 rounded flex items-center gap-4 border border-slate-700">
+                        <img src="${item.logo}" class="w-10 h-10 object-contain" onerror="this.src='placeholder.png'">
+                        <div>
+                            <div class="font-bold">${item.bank}</div>
+                            <div class="text-blue-400">RRSO: ${item.rrso || 'Brak danych'}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error("Nie znaleziono pliku data.json lub błąd składni:", error);
+            }
         }
-        function render(data) {
-            const container = document.getElementById('ranking-container');
-            const groups = data.reduce((acc, item) => { (acc[item.grupa] = acc[item.grupa] || []).push(item); return acc; }, {});
-            Object.keys(groups).forEach(g => {
-                const sec = document.createElement('section');
-                sec.innerHTML = `<h2 class="text-xl font-bold text-blue-500 mb-6 uppercase">${g}</h2><div class="grid md:grid-cols-3 gap-4">${groups[g].map(i => `<div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex justify-between items-center"><div class="font-bold">${i.bank}</div><a href="${i.link}" class="bg-blue-600 px-3 py-1 rounded text-xs">INFO</a></div>`).join('')}</div>`;
-                container.appendChild(sec);
-            });
-        }
-        init();
+        loadData();
     </script>
 </body>
 </html>
