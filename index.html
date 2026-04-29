@@ -2,14 +2,92 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Strona Główna</title>
+    <link rel="stylesheet" href="style.css">
+    <title>FinTech Hub | Premium</title>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-center">
-    <h1 class="text-5xl font-bold mb-12">Witaj w serwisie finansowym</h1>
-    <div class="flex gap-6">
-        <a href="ranking.html" class="bg-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-blue-500">Przejdź do Rankingu</a>
-        <a href="kalkulatory.html" class="bg-green-600 px-8 py-4 rounded-xl font-bold hover:bg-green-500">Przejdź do Kalkulatorów</a>
-    </div>
+<body class="bg-slate-950 text-white">
+
+    <section class="py-24 text-center px-6">
+        <h1 class="text-6xl font-bold mb-6">Finanse w klasie <span class="text-blue-500">Premium</span></h1>
+        <p class="text-xl text-slate-400 mb-12">Najlepsze oferty finansowe w jednym miejscu.</p>
+        <a href="ranking.html" class="btn-affiliate">Sprawdź Rankingi</a>
+    </section>
+
+    <section class="max-w-5xl mx-auto pb-20 px-6 grid md:grid-cols-3 gap-8 text-center">
+        <div class="card p-8">
+            <div class="text-blue-500 text-3xl mb-4">🔍</div>
+            <h3 class="font-bold mb-2">Porównujesz</h3>
+            <p class="text-sm text-slate-400">Analizujesz aktualne RRSO i prowizje wybranych banków.</p>
+        </div>
+        <div class="card p-8">
+            <div class="text-blue-500 text-3xl mb-4">🖱️</div>
+            <h3 class="font-bold mb-2">Wybierasz</h3>
+            <p class="text-sm text-slate-400">Klikasz w przycisk i przechodzisz bezpośrednio do oferty banku.</p>
+        </div>
+        <div class="card p-8">
+            <div class="text-blue-500 text-3xl mb-4">✅</div>
+            <h3 class="font-bold mb-2">Zarabiasz czas</h3>
+            <p class="text-sm text-slate-400">Dzięki nam oszczędzasz godziny na przeszukiwaniu stron banków.</p>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto py-12 px-6 grid md:grid-cols-2 gap-12">
+        <div>
+            <h3 class="text-xl font-bold text-blue-500 mb-6 border-b border-slate-800 pb-2">Edukacja Kredytowa</h3>
+            <div id="kredyty-list" class="space-y-4"></div>
+        </div>
+        <div>
+            <h3 class="text-xl font-bold text-blue-500 mb-6 border-b border-slate-800 pb-2">Księgowość i KSeF</h3>
+            <div id="ksiegowosc-list" class="space-y-4"></div>
+        </div>
+    </section>
+
+    <footer class="mt-24 border-t border-slate-800 bg-slate-900/50 py-12">
+        <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-slate-400">
+            <div>
+                <h4 class="text-white font-bold mb-4">FIN-PREMIUM</h4>
+                <p class="text-sm">Twój niezależny przewodnik po świecie finansów. Pomagamy podejmować lepsze decyzje kredytowe.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Nawigacja</h4>
+                <ul class="text-sm space-y-2">
+                    <li><a href="index.html" class="hover:text-blue-500">Strona główna</a></li>
+                    <li><a href="ranking.html" class="hover:text-blue-500">Ranking kredytów</a></li>
+                    <li><a href="#" class="hover:text-blue-500">Polityka prywatności</a></li>
+                </ul>
+            </div>
+            <div class="text-xs space-y-4">
+                <p>Serwis ma charakter informacyjny. Prezentowane oferty nie stanowią oferty handlowej w rozumieniu kodeksu cywilnego.</p>
+                <p>© 2026 FIN-PREMIUM. Wszystkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function loadZasoby() {
+            try {
+                const response = await fetch('zasoby.json');
+                const data = await response.json();
+                
+                const render = (id, items) => {
+                    const container = document.getElementById(id);
+                    if (!container) return;
+                    container.innerHTML = items.map(item => `
+                        <a href="${item.url}" target="_blank" class="card p-6 block hover:border-blue-500 transition-all">
+                            <span class="font-bold text-lg">${item.tytul}</span>
+                            <span class="block text-blue-400 text-sm mt-3 font-semibold">Czytaj artykuł →</span>
+                        </a>
+                    `).join('');
+                };
+
+                render('kredyty-list', data.kredyty);
+                render('ksiegowosc-list', data.ksiegowosc);
+            } catch (e) { console.error("Błąd ładowania danych:", e); }
+        }
+        loadZasoby();
+    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
