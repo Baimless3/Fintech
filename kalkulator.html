@@ -2,52 +2,106 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Kalkulator Rat Premium | FinTech Hub</title>
+    <title>Kalkulatory Finansowe</title>
 </head>
-<body>
-
-    <main class="max-w-xl mx-auto py-24 px-6">
-        <div class="card p-10">
-            <h1 class="text-3xl mb-8 text-center tracking-tight">Kalkulator <span class="text-blue-500">Raty</span></h1>
-            
-            <div class="mb-8">
-                <label class="block text-sm font-light text-slate-400 mb-2">Kwota kredytu: <span id="kwotaVal" class="text-white font-bold">50 000</span> PLN</label>
-                <input type="range" id="kwota" min="1000" max="500000" step="1000" value="50000" 
-                    class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                    oninput="document.getElementById('kwotaVal').innerText = this.value.replace(/\B(?=(\d{3})+(?!\d))/g, ' '); oblicz();">
+<body class="bg-slate-950 text-white font-sans py-12">
+    <main class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
+        
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
+            <h2 class="text-xl font-bold mb-6 text-blue-500">Kalkulator Kredytowy</h2>
+            <div class="space-y-4">
+                <input type="number" id="k-kwota" placeholder="Kwota (PLN)" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="k-lata" placeholder="Lata" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="k-rrso" placeholder="RRSO (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <button onclick="obliczKredyt()" class="w-full bg-blue-600 py-3 rounded-lg font-bold hover:bg-blue-500 transition">Oblicz ratę</button>
+                <div id="k-wynik" class="text-center font-bold text-lg pt-4">Rata: 0 PLN</div>
             </div>
+        </div>
 
-            <div class="mb-10">
-                <label class="block text-sm font-light text-slate-400 mb-2">Okres (miesiące): <span id="okresVal" class="text-white font-bold">24</span></label>
-                <input type="range" id="okres" min="6" max="120" step="6" value="24" 
-                    class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                    oninput="document.getElementById('okresVal').innerText = this.value; oblicz();">
-            </div>
-
-            <div class="bg-blue-950/30 border border-blue-500/30 p-6 rounded-xl text-center">
-                <p class="text-slate-400 text-sm uppercase tracking-widest mb-1">Szacowana rata</p>
-                <div id="wynik" class="text-5xl font-bold text-white mb-1">0 PLN</div>
-                <p class="text-blue-400 text-xs italic">Wartość orientacyjna (RRSO 9.5%)</p>
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
+            <h2 class="text-xl font-bold mb-6 text-green-500">Kalkulator Lokat</h2>
+            <div class="space-y-4">
+                <input type="number" id="l-kwota" placeholder="Kapitał (PLN)" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="l-opro" placeholder="Oprocentowanie (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="l-mies" placeholder="Liczba miesięcy" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <button onclick="obliczLokatę()" class="w-full bg-green-600 py-3 rounded-lg font-bold hover:bg-green-500 transition">Oblicz zysk</button>
+                <div id="l-wynik" class="text-center font-bold text-lg pt-4">Zysk: 0 PLN</div>
             </div>
         </div>
     </main>
 
     <script>
-        function oblicz() {
-            const kwota = parseInt(document.getElementById('kwota').value);
-            const okres = parseInt(document.getElementById('okres').value);
-            // Prosty wzór na ratę równą
-            const oprocentowanie = 0.095; 
-            const rata = (kwota * (1 + oprocentowanie)) / okres;
-            
-            document.getElementById('wynik').innerText = rata.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + " PLN";
+        // Kredyt
+        function obliczKredyt() {
+            const P = parseFloat(document.getElementById('k-kwota').value);
+            const n = parseFloat(document.getElementById('k-lata').value) * 12;
+            const r = (parseFloat(document.getElementById('k-rrso').value) / 100) / 12;
+            const rata = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            document.getElementById('k-wynik').innerText = `Rata: ${rata.toFixed(2)} PLN`;
         }
-        // Oblicz przy starcie
-        oblicz();
+
+        // Lokata (uproszczony wzór: Kapitał * oprocentowanie * czas w latach)
+        function obliczLokatę() {
+            const P = parseFloat(document.getElementById('l-kwota').value);
+            const r = parseFloat(document.getElementById('l-opro').value) / 100;
+            const m = parseFloat(document.getElementById('l-mies').value) / 12;
+            const zysk = P * r * m;
+            document.getElementById('l-wynik').innerText = `Zysk: ${zysk.toFixed(2)} PLN`;
+        }
     </script>
-    <script src="js/main.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Kalkulatory Finansowe</title>
+</head>
+<body class="bg-slate-950 text-white font-sans py-12">
+    <main class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
+        
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
+            <h2 class="text-xl font-bold mb-6 text-blue-500">Kalkulator Kredytowy</h2>
+            <div class="space-y-4">
+                <input type="number" id="k-kwota" placeholder="Kwota (PLN)" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="k-lata" placeholder="Lata" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="k-rrso" placeholder="RRSO (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <button onclick="obliczKredyt()" class="w-full bg-blue-600 py-3 rounded-lg font-bold hover:bg-blue-500 transition">Oblicz ratę</button>
+                <div id="k-wynik" class="text-center font-bold text-lg pt-4">Rata: 0 PLN</div>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
+            <h2 class="text-xl font-bold mb-6 text-green-500">Kalkulator Lokat</h2>
+            <div class="space-y-4">
+                <input type="number" id="l-kwota" placeholder="Kapitał (PLN)" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="l-opro" placeholder="Oprocentowanie (%)" step="0.1" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <input type="number" id="l-mies" placeholder="Liczba miesięcy" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700">
+                <button onclick="obliczLokatę()" class="w-full bg-green-600 py-3 rounded-lg font-bold hover:bg-green-500 transition">Oblicz zysk</button>
+                <div id="l-wynik" class="text-center font-bold text-lg pt-4">Zysk: 0 PLN</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Kredyt
+        function obliczKredyt() {
+            const P = parseFloat(document.getElementById('k-kwota').value);
+            const n = parseFloat(document.getElementById('k-lata').value) * 12;
+            const r = (parseFloat(document.getElementById('k-rrso').value) / 100) / 12;
+            const rata = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            document.getElementById('k-wynik').innerText = `Rata: ${rata.toFixed(2)} PLN`;
+        }
+
+        // Lokata (uproszczony wzór: Kapitał * oprocentowanie * czas w latach)
+        function obliczLokatę() {
+            const P = parseFloat(document.getElementById('l-kwota').value);
+            const r = parseFloat(document.getElementById('l-opro').value) / 100;
+            const m = parseFloat(document.getElementById('l-mies').value) / 12;
+            const zysk = P * r * m;
+            document.getElementById('l-wynik').innerText = `Zysk: ${zysk.toFixed(2)} PLN`;
+        }
+    </script>
 </body>
 </html>
