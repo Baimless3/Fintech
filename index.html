@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+    <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Ranking Kredytów</title>
 </head>
-<body class="bg-slate-950 text-white">
-    <div id="ranking-container" class="grid gap-4 p-10"></div>
-    
+<body class="bg-slate-950 text-white p-10">
+    <nav class="mb-10 flex gap-6 text-blue-500 font-bold justify-center">
+        <a href="index.html" class="border-b-2 border-blue-500">RANKING</a>
+        <a href="kalkulatory.html" class="hover:text-white">KALKULATORY</a>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-center mb-10">Ranking Kredytów 2026</h1>
+    <div id="ranking-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto"></div>
+
     <script>
-        async function loadData() {
-            try {
-                const response = await fetch('data.json');
-                const data = await response.json();
-                const container = document.getElementById('ranking-container');
-                
-                container.innerHTML = data.map(item => `
-                    <div class="bg-slate-900 p-4 rounded flex items-center gap-4 border border-slate-700">
-                        <img src="${item.logo}" class="w-10 h-10 object-contain" onerror="this.src='placeholder.png'">
-                        <div>
-                            <div class="font-bold">${item.bank}</div>
-                            <div class="text-blue-400">RRSO: ${item.rrso || 'Brak danych'}</div>
-                        </div>
+        async function loadRanking() {
+            const response = await fetch('data.json');
+            const data = await response.json();
+            const container = document.getElementById('ranking-container');
+            container.innerHTML = data.map(item => `
+                <div class="bg-slate-900 p-4 rounded flex items-center gap-4 border border-slate-800">
+                    <img src="${item.logo}" class="w-10 h-10 object-contain bg-white rounded p-1" onerror="this.src='https://placehold.co/40x40'">
+                    <div>
+                        <div class="font-bold">${item.bank}</div>
+                        <div class="text-blue-400 text-sm">RRSO: ${item.rrso || 'Brak danych'}</div>
                     </div>
-                `).join('');
-            } catch (error) {
-                console.error("Nie znaleziono pliku data.json lub błąd składni:", error);
-            }
+                </div>
+            `).join('');
         }
-        loadData();
+        loadRanking();
     </script>
 </body>
 </html>
