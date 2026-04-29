@@ -5,30 +5,31 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Kalkulatory</title>
 </head>
-<body class="bg-slate-950 text-white p-10">
-    <nav class="mb-10 flex gap-6 text-blue-500 font-bold justify-center">
-        <a href="index.html" class="hover:text-white">RANKING</a>
-        <a href="kalkulatory.html" class="border-b-2 border-blue-500">KALKULATORY</a>
+<body class="bg-slate-950 text-white py-10">
+    <nav class="flex justify-center gap-6 mb-10">
+        <a href="index.html" class="text-slate-400 hover:text-white">Start</a>
+        <a href="ranking.html" class="text-slate-400 hover:text-white">Ranking</a>
+        <a href="kalkulatory.html" class="text-green-500 font-bold border-b-2 border-green-500">Kalkulatory</a>
     </nav>
 
-    <main class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
-            <h2 class="text-xl font-bold mb-4">Kalkulator Kredytowy</h2>
-            <input type="number" id="k-kwota" placeholder="Kwota" class="w-full bg-slate-800 p-3 mb-4 rounded">
-            <button onclick="obliczRaty()" class="w-full bg-blue-600 py-3 rounded">Oblicz</button>
-            <div id="k-wynik" class="mt-4 text-center font-bold">Rata: 0 PLN</div>
+    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 px-6">
         </div>
-        <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800">
-            <h2 class="text-xl font-bold mb-4">Kalkulator Lokat</h2>
-            <input type="number" id="l-kwota" placeholder="Kapitał" class="w-full bg-slate-800 p-3 mb-4 rounded">
-            <button onclick="obliczLokatę()" class="w-full bg-green-600 py-3 rounded">Oblicz</button>
-            <div id="l-wynik" class="mt-4 text-center font-bold">Zysk: 0 PLN</div>
-        </div>
-    </main>
+</body>
+</html><!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Kalkulatory</title>
+</head>
+<body class="bg-slate-950 text-white py-10">
+    <nav class="flex justify-center gap-6 mb-10">
+        <a href="index.html" class="text-slate-400 hover:text-white">Start</a>
+        <a href="ranking.html" class="text-slate-400 hover:text-white">Ranking</a>
+        <a href="kalkulatory.html" class="text-green-500 font-bold border-b-2 border-green-500">Kalkulatory</a>
+    </nav>
 
-    <script>
-        function obliczRaty() { document.getElementById('k-wynik').innerText = "Rata: " + (document.getElementById('k-kwota').value * 0.02).toFixed(2) + " PLN"; }
-        function obliczLokatę() { document.getElementById('l-wynik').innerText = "Zysk: " + (document.getElementById('l-kwota').value * 0.05).toFixed(2) + " PLN"; }
-    </script>
+    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 px-6">
+        </div>
 </body>
 </html>
